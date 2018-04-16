@@ -5,7 +5,7 @@
 //  Created by 주호박 on 2018. 4. 7..
 //  Copyright © 2018년 주호박. All rights reserved.
 //
-
+import Firebase
 import UIKit
 
 class ViewController: UIViewController {
@@ -33,6 +33,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            guard (user == nil) else {
+                let Storyboard = UIStoryboard(name: "Lee", bundle: nil)
+                let next = Storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                
+                let Navnext = UINavigationController(rootViewController: next)
+                self.present(Navnext, animated: true, completion: nil)
+                return
+            }
+        }
+        
         appendViewControllerList()
         
         // 초기에 보여줄 화면을 설정
