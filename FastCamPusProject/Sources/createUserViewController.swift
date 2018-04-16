@@ -81,6 +81,7 @@ class createUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("222")
         delegateinit()
         settinginit()
         registNotification()
