@@ -34,15 +34,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+   
+        
         Auth.auth().addStateDidChangeListener { (auth, user) in
-            guard (user == nil) else {
+            if  user == nil {
                 let Storyboard = UIStoryboard(name: "Lee", bundle: nil)
                 let next = Storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                
-                let Navnext = UINavigationController(rootViewController: next)
-                self.present(Navnext, animated: true, completion: nil)
-                return
+                let na = UINavigationController(rootViewController: next)
+                self.present(na, animated: true, completion: nil)
+            } else {
+                // No User is signed in. Show user the login screen
             }
+            
+            
+            
+            
         }
         
         appendViewControllerList()
