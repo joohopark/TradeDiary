@@ -15,13 +15,27 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentsView: UIView!
     
+    
+    @IBOutlet weak var heightZero: NSLayoutConstraint!
+    @IBOutlet weak var heightNonZero: NSLayoutConstraint!
+    
+    
 //    @IBOutlet weak var textViewTop: NSLayoutConstraint!
     
     // 사진첩에서 사진이 추가되면 이쪽으로 추가 시켜야 될것 같아요 그럼 자동으로 CollectionView가 리로드
     var photoList: [UIImage] = []{
         didSet{
+            
+            if self.photoList.count > 1{
+                self.heightZero.priority = UILayoutPriority(rawValue: 250)
+                self.heightZero.isActive = true
+            }else{
+                self.heightZero.priority = UILayoutPriority(rawValue: 999)
+                self.heightZero.isActive = true
+            }
+            
             self.collectionView.reloadData()
-            collectionView.isHidden = false
+//            collectionView.isHidden = false
         }
     }
     
@@ -45,16 +59,18 @@ class NewPostViewController: UIViewController {
     @IBAction func didPushTestButton(_ sender: UIButton){
         if isPhotoListEmpty{// 비어 있으면 List 값 넣어
             setPhotoList()
+            isPhotoListEmpty = false
             debugPrint("append photoList New Value ========================== \(photoList.count)")
         }else{// 채워져있음 비워
             photoList = []
+            isPhotoListEmpty = true
             debugPrint("Delete All Value photoList ========================== \(photoList.count)")
         }
         
     }
     
     @IBAction func didPushRedrawButton(_ sender: UIButton){
-        textViewMakeConstraints()
+//        textViewMakeConstraints()
         
 //        view.translatesAutoresizingMaskIntoConstraints = NO
     }
@@ -63,22 +79,22 @@ class NewPostViewController: UIViewController {
 
 extension NewPostViewController{
 
-    func textViewMakeConstraints(){
-        if checkImgExist(){
-//            collectionView.isHidden = false// 보여줘
-            textView.snp.makeConstraints { (make) in
-                make.top.equalTo(collectionView).offset(20)//기존 배치 TextView위치로 옮긴다.
-            }
-            self.view.layoutIfNeeded()
-        }else{
-            collectionView.isHidden = true// 없애줘
-            // 텍스트 뷰의 콘스테인 이걸 다시 잡는걸 코드로?
-            textView.snp.makeConstraints { (make) in
-                make.top.equalTo(contentsView).offset(20)// 원래 컬렉션 뷰의 자리로 옮겨 준다.
-            }
-            self.view.layoutIfNeeded()
-        }
-    }
+//    func textViewMakeConstraints(){
+//        if checkImgExist(){
+////            collectionView.isHidden = false// 보여줘
+//            textView.snp.makeConstraints { (make) in
+//                make.top.equalTo(collectionView).offset(20)//기존 배치 TextView위치로 옮긴다.
+//            }
+//            self.view.layoutIfNeeded()
+//        }else{
+//            collectionView.isHidden = true// 없애줘
+//            // 텍스트 뷰의 콘스테인 이걸 다시 잡는걸 코드로?
+//            textView.snp.makeConstraints { (make) in
+//                make.top.equalTo(contentsView).offset(20)// 원래 컬렉션 뷰의 자리로 옮겨 준다.
+//            }
+//            self.view.layoutIfNeeded()
+//        }
+//    }
     
     
     func checkImgExist() -> Bool{
@@ -90,11 +106,11 @@ extension NewPostViewController{
 
     
     func setPhotoList(){
-        photoList.append(UIImage(named: "PhotoCellImg")!)
+//        photoList.append(UIImage(named: "PhotoCellImg")!)
         photoList.append(UIImage(named: "test")!)
         photoList.append(UIImage(named: "test2")!)
         photoList.append(UIImage(named: "test3")!)
-        photoList.append(UIImage(named: "test4")!)
+//        photoList.append(UIImage(named: "test4")!)
     }
 }
 
